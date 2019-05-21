@@ -8,12 +8,11 @@ from pythonforandroid.logger import shprint
 import glob
 
 
-class GRPCIORecipe(CythonRecipe):
-    name = 'grpcio'
+class PYGRPCIORecipe(CythonRecipe):
+    name = 'pygrpcio'
     version = 'v1.20.1'
     url = 'https://github.com/grpc/grpc/archive/{version}.zip'
-    site_packages_name = 'grpcio'
     depends = ['grpc']
-    cython_args = ['-Igrpc/src/python/grpcio']
+    cython_args = ['-Igrpc/src/python/grpcio/grpc/_cython']
 
-recipe = GRPCIORecipe()
+recipe = PYGRPCIORecipe()
