@@ -14,6 +14,11 @@ class PYGRPCIORecipe(CythonRecipe):
     url = 'https://github.com/grpc/grpc/archive/{version}.zip'
     depends = ['grpc']
 
+    def get_recipe_env(self, arch):
+        env = super(PYGRPCIORecipe, self).get_recipe_env(arch)
+        env['GRPC_PYTHON_BUILD_WITH_CYTHON'] = '1'
+        return env
+
     def build_cython_components(self, arch):
         env = self.get_recipe_env(arch)
         with current_directory(self.get_build_dir(arch.arch)):
@@ -27,7 +32,7 @@ class PYGRPCIORecipe(CythonRecipe):
                 pass
 
         # ...so we manually run cython from the user's system
-        shprint(sh.find, self.get_build_dir('armeabi'), '-iname', '*.pyx', '-exec',
+        shprint(sh.find, self.get_build_dir('armeabi-v7a'), '-iname', '*.pyx', '-exec',
                 self.ctx.cython, '{}', ';', _env=env)
 
         # now cython has already been run so the build works
