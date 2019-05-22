@@ -26,5 +26,17 @@ class GRPCIORecipe(CythonRecipe):
             except sh.ErrorReturnCode_1:
                 pass
 
+        # ...so we manually run cython from the user's system
+        shprint(sh.find, self.get_build_dir('armeabi'), '-iname', '*.pyx', '-exec',
+                self.ctx.cython, '{}', ';', _env=env)
+
+        # now cython has already been run so the build works
+        shprint(hostpython, 'setup.py', 'build_ext', '-v', _env=env)
+
+        # stripping debug symbols lowers the file size a lot
+        build_lib = glob.glob('./build/lib*')
+        shprint(sh.find, build_lib[0], '-name', '*.o', '-exec',
+                env['STRIP'], '{}', ';', _env=env)
+
 
 recipe = GRPCIORecipe()
