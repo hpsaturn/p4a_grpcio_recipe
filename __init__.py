@@ -12,7 +12,9 @@ class PYGRPCIORecipe(CythonRecipe):
     name = 'pygrpcio'
     version = 'v1.20.1'
     url = 'https://github.com/grpc/grpc/archive/{version}.zip'
+    site_packages_name = 'grpcio'
     depends = ['grpc']
+    cython_args = ['src/python/grpcio/grpc/_cython']
 
     def get_recipe_env(self, arch):
         env = super(PYGRPCIORecipe, self).get_recipe_env(arch)
