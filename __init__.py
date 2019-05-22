@@ -9,11 +9,22 @@ import glob
 
 
 class GRPCIORecipe(CythonRecipe):
-    name = 'grpcio'
+    name = 'pygrpcio'
     version = 'v1.20.1'
     url = 'https://github.com/grpc/grpc/archive/{version}.zip'
-    site_packages_name = 'grpcio'
     depends = ['grpc']
-    cython_args = ['-Igrpc/src/python/grpcio']
+
+    def build_cython_components(self, arch):
+        env = self.get_recipe_env(arch)
+        with current_directory(self.get_build_dir(arch.arch)):
+            hostpython = sh.Command(self.ctx.hostpython)
+
+            # This first attempt *will* fail, because cython isn't
+            # installed in the hostpython
+            try:
+                shprint(hostpython, 'setup.py', 'build_ext', _env=env)
+            except sh.ErrorReturnCode_1:
+                pass
+
 
 recipe = GRPCIORecipe()
