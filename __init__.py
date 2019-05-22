@@ -8,7 +8,7 @@ from pythonforandroid.logger import shprint
 import glob
 
 
-class GRPCIORecipe(CythonRecipe):
+class PYGRPCIORecipe(CythonRecipe):
     name = 'pygrpcio'
     version = 'v1.20.1'
     url = 'https://github.com/grpc/grpc/archive/{version}.zip'
@@ -38,5 +38,4 @@ class GRPCIORecipe(CythonRecipe):
         shprint(sh.find, build_lib[0], '-name', '*.o', '-exec',
                 env['STRIP'], '{}', ';', _env=env)
 
-
-recipe = GRPCIORecipe()
+recipe = PYGRPCIORecipe()
